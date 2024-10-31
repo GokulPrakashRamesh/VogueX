@@ -25,12 +25,13 @@ def test_login_post(app):
     headers = {"Content-Type": mimetype, "Accept": mimetype}
 
     # This user is not present in the db
-    data = {"email": "test@gmail.com",
+    data = {"email": "testxyz@gmail.com",
             "password": "password123"}
     url = "/login"
 
     response = client.post(url, data=data, headers=headers)
     assert response.status_code == 200
+    assert "ERROR" in response.data.decode('utf-8')
 
 
 def test_signup_get(app):
@@ -51,7 +52,7 @@ def test_signup_post(app):
         "firstName": "test_user",
         "lastName": "test_end_name",
         "gender": "unknown",
-        "phoneNumber": 99999999999,
+        "phoneNumber": 9874561230,
         "password1": "password123",
         "password2": "password123",
         "age": 25,
@@ -60,6 +61,7 @@ def test_signup_post(app):
 
     response = client.post(url, data=data, headers=headers)
     assert response.status_code, 200
+    assert "ERROR" in response.data.decode('utf-8')
 
 
 def test_login_check_positive_case(app):
@@ -75,6 +77,7 @@ def test_login_check_positive_case(app):
 
     response = client.post(url, data=data, headers=headers)
     assert response.status_code, 200
+    assert "ERROR" not in response.data.decode('utf-8')
 
 def test_signup_email_already_exists(app):
     client = app.test_client()
@@ -88,7 +91,7 @@ def test_signup_email_already_exists(app):
         "firstName": "test_user2",
         "lastName": "test_end_name2",
         "gender": "Male",
-        "phoneNumber": "9999999999",
+        "phoneNumber": "5467891239",
         "password1": "password123",
         "password2": "password123",
         "age": 25,
@@ -97,13 +100,15 @@ def test_signup_email_already_exists(app):
 
     response = client.post(url, data=data, headers=headers)
     assert response.status_code == 200  # Successful sign-up
+    assert "ERROR" in response.data.decode('utf-8')
 
     # Step 2: Attempt to sign up with the same email again
     response = client.post(url, data=data, headers=headers)
     assert response.status_code == 200  # Check if still valid response
     # Now check for the flash message
-    with client.session_transaction() as sess:
-        assert "Email already exists." in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "Email already exists." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
 
 def test_login_fail_user_not_exist(app):
     client = app.test_client()
@@ -113,8 +118,9 @@ def test_login_fail_user_not_exist(app):
     })
     assert response.status_code == 200  # Check if still valid response
     # Now check for the flash message
-    with client.session_transaction() as sess:
-        assert "Email does not exist." in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "Email does not exist." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
 
 def test_login_fail_incorrect_password(app):
     client = app.test_client()
@@ -123,14 +129,15 @@ def test_login_fail_incorrect_password(app):
         "firstName": "test_user2",
         "lastName": "test_end_name2",
         "gender": "Male",
-        "phoneNumber": "9999999999",
+        "phoneNumber": "84561793217",
         "password1": "password123",
         "password2": "password123",
         "age": 25,
         "city": "Raleigh",
     }
-
-    response = client.post(url, data=data, headers=headers)
+    mimetype = "application/x-www-form-urlencoded"
+    headers = {"Content-Type": mimetype, "Accept": mimetype}
+    response = client.post("/sign-up", data=data, headers=headers)
     assert response.status_code == 200  # Successful sign-up
     response = client.post('/login', data={
             'email': 'test3@gmail.com',
@@ -138,8 +145,8 @@ def test_login_fail_incorrect_password(app):
     })
     assert response.status_code == 200  # Check if still valid response
     # Now check for the flash message
-    with client.session_transaction() as sess:
-        assert "Incorrect password, try again." in sess.get("_flashes", [])
+    assert "Incorrect password, try again." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
 
 def test_signup_short_email(app):
     client = app.test_client()
@@ -157,8 +164,10 @@ def test_signup_short_email(app):
     }
     response = client.post(url, data=data)
     assert response.status_code == 200
-    with client.session_transaction() as sess:
-        assert "Email must be greater than 3 characters." in sess.get("_flashes", [])
+    withresponse_data = response.data.decode('utf-8')
+    assert "Email must be greater than 3 characters." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
+    
 def test_signup_short_first_name(app):
     client = app.test_client()
     url = "/sign-up"
@@ -167,7 +176,7 @@ def test_signup_short_first_name(app):
         "firstName": "A",
         "lastName": "Last",
         "gender": "Male",
-        "phoneNumber": "1234567890",
+        "phoneNumber": "8976251654",
         "password1": "password123",
         "password2": "password123",
         "age": 25,
@@ -175,8 +184,10 @@ def test_signup_short_first_name(app):
     }
     response = client.post(url, data=data)
     assert response.status_code == 200
-    with client.session_transaction() as sess:
-        assert "First name must be greater than 1 character." in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "First name must be greater than 1 character." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
+
 def test_signup_short_password(app):
     client = app.test_client()
     url = "/sign-up"
@@ -185,7 +196,7 @@ def test_signup_short_password(app):
         "firstName": "First",
         "lastName": "Last",
         "gender": "Male",
-        "phoneNumber": "1234567890",
+        "phoneNumber": "5677189794",
         "password1": "short",
         "password2": "short",
         "age": 25,
@@ -193,9 +204,12 @@ def test_signup_short_password(app):
     }
     response = client.post(url, data=data)
     assert response.status_code == 200
-    with client.session_transaction() as sess:
-        assert "Password must be at least 7 characters." in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "Password must be at least 7 characters." in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
+
 def test_signup_invalid_age_below_18(app):
+
     client = app.test_client()
     url = "/sign-up"
     data = {
@@ -203,7 +217,7 @@ def test_signup_invalid_age_below_18(app):
         "firstName": "First",
         "lastName": "Last",
         "gender": "Male",
-        "phoneNumber": "1234567890",
+        "phoneNumber": "87777888777",
         "password1": "password123",
         "password2": "password123",
         "age": 15,  # Invalid age
@@ -211,23 +225,27 @@ def test_signup_invalid_age_below_18(app):
     }
     response = client.post(url, data=data)
     assert response.status_code == 200
-    with client.session_transaction() as sess:
-        assert "Please enter a valid age" in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "Please enter a valid age" in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')
+
 def test_signup_invalid_age_above_90(app):
+
     client = app.test_client()
     url = "/sign-up"
     data = {
-        "email": "test7@gmail.com",
-        "firstName": "First",
-        "lastName": "Last",
-        "gender": "Male",
-        "phoneNumber": "1234567890",
-        "password1": "password123",
-        "password2": "password123",
-        "age": 1001,  # Invalid age
+        "email": "test7asaas@gmail.com",
+        "firstName": "First21",
+        "lastName": "Last21",
+        "gender": "Female",
+        "phoneNumber": "95778268777",
+        "password1": "pasword123",
+        "password2": "pasword123",
+        "age": 99,  # Invalid age
         "city": "Raleigh",
     }
     response = client.post(url, data=data)
     assert response.status_code == 200
-    with client.session_transaction() as sess:
-        assert "Please enter a valid age" in sess.get("_flashes", [])
+    response_data = response.data.decode('utf-8')
+    assert "Please enter a valid age" in response.data.decode('utf-8')
+    assert "ERROR" in response.data.decode('utf-8')

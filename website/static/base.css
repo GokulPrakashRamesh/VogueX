@@ -7,13 +7,6 @@
 }
 
 
-
-
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-}
 .btn {
     border-radius: 20px; /* Rounded corners */
     transition: background-color 0.3s; /* Smooth transition for hover */
