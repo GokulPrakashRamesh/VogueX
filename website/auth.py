@@ -76,7 +76,7 @@ def sign_up():
                 city=city,
                 age=age,
                 phone_number=phone_number,
-                password=generate_password_hash(password1, method="sha256"),
+                password=generate_password_hash(password1, method="pbkdf2:sha256"),
             )
             db.session.add(new_user)
             db.session.commit()

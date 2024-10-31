@@ -3,7 +3,10 @@ from flask import (
     render_template,
     request,
     jsonify,
-    session
+    session,
+    redirect,
+    url_for,
+    flash
 )
 
 from flask_login import current_user
@@ -26,6 +29,14 @@ payload = {
 
 @favouritesbp.route("/favourites", methods=["POST", "GET"])
 def favourites(userid=None):
+
+    if contracts.SessionParameters.USERID not in session:
+        flash("You are not logged in. Please log in to continue.", "error")
+        return redirect(url_for('auth.login')) 
+
+    userid = session[contracts.SessionParameters.USERID]
+    favourite_query = Favourite.query.filter_by(userid=int(userid))
+    
     if request.method == "GET":
         favourite_query = Favourite.query.filter_by(userid=int(userid))
 
@@ -53,17 +64,17 @@ def favourites(userid=None):
     search_occasion = ""
     search_weather = ""
 
-    userid = session[contracts.SessionParameters.USERID]
-    if contracts.SessionParameters.USERID not in session:
-        return (
-            jsonify(
-                {
-                    "error": "user not logged in",
-                    "error_code": contracts.ErrorCodes.USER_NOT_LOGGED_IN,
-                }
-            ),
-            403,
-        )
+    # userid = session[contracts.SessionParameters.USERID]
+    # if contracts.SessionParameters.USERID not in session:
+        # return (
+            # jsonify(
+                # {
+                    # "error": "user not logged in",
+                    # "error_code": contracts.ErrorCodes.USER_NOT_LOGGED_IN,
+                # }
+            # ),
+            # 403,
+        # )
 
     if contracts.FavouritesContrastRequest.FAVOURITE_URL_KEY in req_json_body:
         favourite_url = req_json_body[contracts.FavouritesContrastRequest.FAVOURITE_URL_KEY]
@@ -106,7 +117,10 @@ def favourites(userid=None):
         # print(favourite_list[0])
 
         sorted_fav_list = {}
-
+        if not favourite_resp:
+        # No favorites found, rendering template with empty list
+            return render_template("favourites.html", user=current_user, sorted_fav_list={}, enumerate=enumerate)
+        
         for row in favourite_resp:
             fav = json.loads(json.dumps(Favourite.serialize(row)))
 
