@@ -10,11 +10,9 @@ script:
 notifications:
   email:
     recipients:
-      - mperich@ncsu.edu
-      - svangal@ncsu.edu
-      - kkarnat@ncsu.edu
-      - psangan@ncsu.edu
-      - skaalam@ncsu.edu
+      - gramesh4@ncsu.edu
+      - hbharat2@ncsu.edu
+      - rmante@ncsu.edu
 
     on_success: never
     on_failure: always
