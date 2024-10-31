@@ -79,8 +79,11 @@ Change working directory to the repository:
 
 $ cd vogueX---Fashion-Recommender
 
+
 For integration of mysql:
+
   update __init__.py with credentials for mysql
+
   and run the SQL schema
 
 
