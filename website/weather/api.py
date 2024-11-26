@@ -3,8 +3,8 @@ import requests
 
 class Config:
     def __init__(self):
-        self.API_KEY1 = "E2GXA3EGPJ7RHYM4MTCH4H7RQ"
-        self.API_KEY2 = "424ca7dcc9a5422e811220113222311"
+        self.API_KEY1 = "aa35b9e647da4f53b19195859242611"
+        self.API_KEY2 = "DHEGFSBQJM29A8NAYG98MF67Q"
 
 
 class WeatherAPI:

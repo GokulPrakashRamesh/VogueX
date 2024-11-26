@@ -80,8 +80,8 @@ class WeatherAPI:
 
 class ImageConfig:
     def __init__(self) -> None:
-        self.API_KEY = "AIzaSyBnKm9SLLT0j_Hmw5CXV5h54GNOm_NhvLI"
-        self.PROJ_CX = "951651316f70a470c"
+        self.API_KEY = "AIzaSyDw0NHyQohzUnqPuB29q-oJirpTAgtUn3I"
+        self.PROJ_CX = "1466d169a14704de7"
 
 
 class QueryBuilder:
