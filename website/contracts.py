@@ -1,5 +1,5 @@
 # VogueX
-# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# Copyright (c) 2024 Group 84: Aditi Reddy, Ashwin Ramesh Kannan, Bhuvan Kurra, Devesh Vaidya
 # This project is licensed under the MIT License.
 # #
 # Governance Model:
