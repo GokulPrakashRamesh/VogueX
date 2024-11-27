@@ -1,10 +1,19 @@
+# VogueX
+# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# This project is licensed under the MIT License.
+# #
+# Governance Model:
+# This project follows an open governance model, which includes a leadership team,
+# contribution guidelines, a code of conduct, and a clear decision-making process.
+# Contributions are welcome, and please see CONTRIBUTING.md for details.
+
 import requests
 
 
 class Config:
     def __init__(self):
-        self.API_KEY1 = "aa35b9e647da4f53b19195859242611"
-        self.API_KEY2 = "DHEGFSBQJM29A8NAYG98MF67Q"
+        self.API_KEY1 = "E2GXA3EGPJ7RHYM4MTCH4H7RQ"
+        self.API_KEY2 = "424ca7dcc9a5422e811220113222311"
 
 
 class WeatherAPI:

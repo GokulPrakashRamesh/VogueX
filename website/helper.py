@@ -1,9 +1,22 @@
-# from geopy.geocoders import Nominatim
+# VogueX
+# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# This project is licensed under the MIT License.
+# #
+# Governance Model:
+# This project follows an open governance model, which includes a leadership team,
+# contribution guidelines, a code of conduct, and a clear decision-making process.
+# Contributions are welcome, and please see CONTRIBUTING.md for details.
 
 import json
 
 from . import models
 from . import utils
+
+import sys
+import os
+
+sys.path.append(os.path.dirname(__file__))
+from recommendation_model import get_recommendations
 
 default_preferences = {
     "male": ["blue shirt", "black pant"],
@@ -17,8 +30,7 @@ default_preferences = {
 class PreferencesHelper:
     def givePreferences(userid, occasion):
         try:
-            preferenceObj = models.Preference.query.filter_by(
-                userid=userid).first()
+            preferenceObj = models.Preference.query.filter_by(userid=userid).first()
             preferences = json.loads(str(preferenceObj.preferences))
             if occasion in preferences:
                 return preferences[occasion]
@@ -59,8 +71,17 @@ class RecommendationHelper:
         self.searchAPIObj = utils.SearchImages()
         self.weatherHelper = WeatherHelper()
 
-    def giveRecommendations(self, userid, gender, city=None, occasion=None, culture=None,
-                            ageGroup=None, date=None, time=None):
+    def giveRecommendations(
+        self,
+        userid,
+        gender,
+        city=None,
+        occasion=None,
+        culture=None,
+        ageGroup=None,
+        date=None,
+        time=None,
+    ):
         preferences = PreferencesHelper.givePreferences(userid, occasion)
         print(preferences)
         query_keywords = []
@@ -81,7 +102,32 @@ class RecommendationHelper:
 
         if not occasion:
             occasion = "regular event"
-        query_keywords.append(
-            "in " + weather + " weather" + " to a " + occasion)
+        query_keywords.append("in " + weather + " weather" + " to a " + occasion)
         links = self.searchAPIObj.image_search(query_keywords, culture=culture)
         return links
+
+
+class NewRecommendationHelper:
+    def giveRecommendations(
+        self,
+        userid,
+        gender,
+        masterCategory,
+        subCategory,
+        articleType,
+        baseColour,
+        season,
+        usage,
+    ):
+        input = {
+            "gender": gender,
+            "masterCategory": masterCategory,
+            "subCategory": subCategory,
+            "articleType": articleType,
+            "baseColour": baseColour,
+            "season": season,
+            "usage": usage,
+        }
+
+        images = get_recommendations(input)
+        return images
