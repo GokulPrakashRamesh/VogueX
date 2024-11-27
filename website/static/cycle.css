@@ -1,0 +1,53 @@
+/* cycle.css */
+body {
+    background-color: #f9f7f6;
+    font-family: "Poppins", sans-serif;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    color: #ff6f61;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 1.5rem;
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+    background: #fff;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.btn-xl {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.btn-xl:hover {
+    background-color: #ff3b2d;
+}
+
+.results-card {
+    background: #ffefec;
+    color: #333;
+    border-radius: 15px;
+}
+
+.results-card h4 {
+    color: #ff6f61;
+    margin-bottom: 1rem;
+}

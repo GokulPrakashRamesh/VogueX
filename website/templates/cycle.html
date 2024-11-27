@@ -1,0 +1,48 @@
+<!-- cycle.html -->
+{% extends "base.html" %}
+{% block title %}Menstrual Cycle Tracker{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='cycle.css') }}">
+<div class="container">
+    <div class="row top-buffer">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="text-center page-title">Menstrual Cycle Tracker</h2>
+            <p class="text-center subtitle">Plan and understand your cycle better</p>
+            <form action="/cycle" method="POST">
+                <div class="card shadow-lg p-4">
+                    <div class="form-group">
+                        <label for="lastPeriod">Date of Last Period</label>
+                        <input type="date" class="form-control" id="lastPeriod" name="lastPeriod" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cycleLength">Average Cycle Length (days)</label>
+                        <input type="number" class="form-control" id="cycleLength" name="cycleLength" placeholder="E.g., 28" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="periodLength">Length of Period (days)</label>
+                        <input type="number" class="form-control" id="periodLength" name="periodLength" placeholder="E.g., 5" required>
+                    </div>
+                    <div class="form-actions text-center">
+                        <button type="submit" class="btn btn-primary btn-xl">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if insights %}
+    <div class="row top-buffer">
+        <div class="col-lg-8 mx-auto">
+            <div class="card results-card shadow-lg p-4">
+                <h4 class="text-center">Your Insights</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Next Period: {{ insights['next_period'] }}</li>
+                    <li class="list-group-item">Fertile Window: {{ insights['fertile_window'] }}</li>
+                    <li class="list-group-item text-success">Recommendations: {{ insights['recommendation'] }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
