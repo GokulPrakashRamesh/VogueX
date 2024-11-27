@@ -1,3 +1,12 @@
+# VogueX
+# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# This project is licensed under the MIT License.
+# #
+# Governance Model:
+# This project follows an open governance model, which includes a leadership team,
+# contribution guidelines, a code of conduct, and a clear decision-making process.
+# Contributions are welcome, and please see CONTRIBUTING.md for details.
+
 import json
 from flask import (
     Blueprint,
@@ -94,8 +103,7 @@ def get_preferences():
         )
     # query the preferences table and check if preferences have been saved or not
     userid = session[contracts.SessionParameters.USERID]
-    preferencesObj = models.Preference.query.filter_by(
-        userid=int(userid)).first()
+    preferencesObj = models.Preference.query.filter_by(userid=int(userid)).first()
     if not preferencesObj:
         return (
             jsonify(
@@ -144,8 +152,7 @@ def post_preferences():
     if contracts.PreferenceContractRequest.PREFERENCES in req:
         user_preferences = req[contracts.PreferenceContractRequest.PREFERENCES]
 
-    preferenceObject = models.Preference.query.filter_by(
-        userid=int(userid)).first()
+    preferenceObject = models.Preference.query.filter_by(userid=int(userid)).first()
     if not preferenceObject:
         preferenceObject = models.Preference(
             userid=int(userid), preferences=json.dumps(user_preferences)
