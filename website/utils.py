@@ -1,4 +1,13 @@
-from google_images_search import GoogleImagesSearch
+# VogueX
+# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# This project is licensed under the MIT License.
+# #
+# Governance Model:
+# This project follows an open governance model, which includes a leadership team,
+# contribution guidelines, a code of conduct, and a clear decision-making process.
+# Contributions are welcome, and please see CONTRIBUTING.md for details.
+
+# from google_images_search import GoogleImagesSearch
 import requests
 
 
@@ -31,12 +40,15 @@ class WeatherConfig:
 #             return jsonResponse["current"]["condition"]["text"]
 #         return ""
 
+
 class WeatherAPI:
     def __init__(self) -> None:
         self.config = WeatherConfig()
+
     """
     Function to fetch current weather forecast using city from external weather API
     """
+
     def getCurrentWeather(self, latitude=None, longitude=None, city=None):
         url = "http://api.weatherapi.com/v1/current.json?key={API_KEY1}&q={city}&aqi=no".format(
             city=city, API_KEY1=self.config.API_KEY
@@ -52,9 +64,11 @@ class WeatherAPI:
         if "condition" in jsonResponse:
             return jsonResponse["condition"]["text"]
         return ""
+
     """
     Function to fetch weather forecast for future from external weather API
     """
+
     def getFutureWeather(self, date=None, city=None, time=None):
         url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}/{Date}?key={API_KEY2}".format(
             city=city, Date=date, API_KEY2=self.config.API_KEY
@@ -96,24 +110,24 @@ class QueryBuilder:
         return "Suggested " + culture + " outfits for " + return_query_string
 
 
-class SearchImages:
-    def __init__(self) -> None:
-        self.config = ImageConfig()
-        self.gis = GoogleImagesSearch(self.config.API_KEY, self.config.PROJ_CX)
-        self.default_num_of_records = 10
-        self.query_builder = QueryBuilder()
+# class SearchImages:
+#     def __init__(self) -> None:
+#         self.config = ImageConfig()
+#         self.gis = GoogleImagesSearch(self.config.API_KEY, self.config.PROJ_CX)
+#         self.default_num_of_records = 10
+#         self.query_builder = QueryBuilder()
 
-    # gives the list of urls for a search
-    def image_search(self, query_keywords, culture, num_of_records=None):
-        if not num_of_records:
-            num_of_records = self.default_num_of_records
+#     # gives the list of urls for a search
+#     def image_search(self, query_keywords, culture, num_of_records=None):
+#         if not num_of_records:
+#             num_of_records = self.default_num_of_records
 
-        query = self.query_builder.getQueryString(query_keywords, culture=culture)
-        print("Searchingy ", query)
-        _search_params = {"q": query, "num": num_of_records}
-        self.gis.search(search_params=_search_params)
+#         query = self.query_builder.getQueryString(query_keywords, culture=culture)
+#         print("Searchingy ", query)
+#         _search_params = {"q": query, "num": num_of_records}
+#         self.gis.search(search_params=_search_params)
 
-        image_urls = []
-        for image in self.gis.results():
-            image_urls.append(image.url)
-        return image_urls
+#         image_urls = []
+#         for image in self.gis.results():
+#             image_urls.append(image.url)
+#         return image_urls
