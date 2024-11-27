@@ -89,11 +89,11 @@ http://localhost:5000/
 
 
 ## Contributors:
-- Kalyan Karnati (kkarnat)
-- Mukund Varma Pericherla (mperich)
-- Pranavi Sharma Sanganabhatla (psangan)
-- Saketh Vangala (svangal)
-- Srihitha Reddy Kaalam (skaalam)
+- Aditi Reddy 
+- Ashwin Ramesh Kannan 
+- Bhuvan Kurra 
+- Devesh Vaidya 
+
 
 
 
