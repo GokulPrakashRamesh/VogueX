@@ -1,26 +1,37 @@
+# VogueX
+# Copyright (c) 2024 Group 84: Gokul Prakash Ramesh, Haricharan Bharathi, Raghunandan Ganesh Mante
+# This project is licensed under the MIT License.
+# #
+# Governance Model:
+# This project follows an open governance model, which includes a leadership team,
+# contribution guidelines, a code of conduct, and a clear decision-making process.
+# Contributions are welcome, and please see CONTRIBUTING.md for details.
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
-db_overlay = None
+# DB_NAME = "database.db"
+# db_overlay = None
 
 
-def create_app(test_conifg=None):
+def create_app(test_config=None):
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "hjshjhdjah kjshkjdhjs"
+    app.config["SECRET_KEY"] = "akjdnauhdbas asdnabdbaskd"
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = "mysql+pymysql://root:root@localhost:3306/fashion"
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "mysql+pymysql://admin:0311@localhost:3306/fashion"
+    )
 
-    if test_conifg:
-        app.config["SECRET_KEY"] = test_conifg["SECRET_KEY"]
-        app.config["SQLALCHEMY_DATABASE_URI"] = test_conifg["SQLALCHEMY_DATABASE_URI"]
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    if test_config:
+        app.config["SECRET_KEY"] = test_config["SECRET_KEY"]
+        app.config["SQLALCHEMY_DATABASE_URI"] = test_config["SQLALCHEMY_DATABASE_URI"]
 
     db.init_app(app)
+
     from .views import views
     from .auth import auth
     from .favourites import favouritesbp
